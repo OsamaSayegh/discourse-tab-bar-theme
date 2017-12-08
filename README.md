@@ -17,16 +17,13 @@ Included tabs are:
 
 ### Screenshots:
 
-![demo-bright-1](demo-bright-1.png)
+<img src="demo-bright-1.png" height="500">
 
+<img src="demo-bright-2.png" height="300">
 
-![demo-bright-2](demo-bright-2.png)
+<img src="demo-dark-1.png" height="300">
 
-
-![demo-dark-1](demo-dark-1.png)
-
-
-![demo-dark-2](demo-dark-2.png)
+<img src="demo-dark-2.png" height="500">
 
 ### Installation
 
