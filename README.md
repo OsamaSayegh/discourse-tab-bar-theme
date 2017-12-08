@@ -31,8 +31,15 @@ Follow the instructions here:
 
 https://meta.discourse.org/t/how-do-i-install-a-theme-or-theme-component/63682?u=osama
 
+### Note on updates
+
+Updating the theme **will override** all customization you made to the theme. So please copy your customizations to somewhere else then update the theme and re-implement your customization.
+
+This hassle is temporary until we have a plugin to replace this theme. With plugin you'll have an interface to make customize without having to touch a single line of code. Keep an eye on [this topic](https://meta.discourse.org/t/discourse-tab-bar-for-mobile/75696?u=osama) for updates.
 
 ### Customization
+
+**Please read the "Note on updates" section above before you make any customizations to the theme.**
 
 Once you install this theme, go to Admin => Customize => Themes and select this theme. Click "Edit CSS/HTML", switch to Mobile and finally select </head>, you'll find there an "Edit Area" at the top of the code. Most of the customizations you might want to do will be done there.
 
@@ -53,6 +60,12 @@ The 'title' attribute is self-explanatory. The 'icon' attribute is the icon you 
 Now the 'destination' attribute is the tricky part. If you want the new tab to takes users to a certain page such as /about or /u or /badges or /pirvacy, then you simply need to assign the 'destination' attribute to the relative URL of the page. Let's say that the URL to the About page of your forums is https://forums.mysite.com/about, then the relative URL of your forums' About page is '/about'. A relative URL must have a slash '/' in it, otherwise it'll be interpreted as a route name and it won't work.
 
 The 'destination' attribute can also be a URL to your profile page or a group if you want to make it easy for your users to contact with staff. '/u/your_username' or '/groups/your_group_name' will work as well.
+
+### Feedback
+
+If you have an idea to improve this theme or want to report an issue, be sure to drop them in the topic dedicated to this theme on Discourse Meta:
+
+https://meta.discourse.org/t/discourse-tab-bar-for-mobile/75696?u=osama
 
 ### License
 
