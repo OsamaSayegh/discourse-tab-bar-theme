@@ -1,0 +1,133 @@
+<script type="text/discourse-plugin" version="0.8.13">
+  (function() {
+
+    const tabs = [
+    
+      /*                    \\\   REORDER/REMOVE/ADD TABS HERE   ///
+       *
+       * - enable and disable tabs by adding and removing '//' at the beginning of the 6 lines below
+       *     that start with '{' and end with '},'
+       * - see the 'Notifications' line below for an exmaple of how a 'disabled' line looks like
+       *
+       * - reorder the tabs by changing the order of the lines
+       *
+       * - duplicate a line to create a new tab and then change each of the 'title', 'icon'
+       *     and 'destination' attributes
+       * - you can find icons at http://fontawesome.io/icons/ 
+       * - destination value can either be a relative URL (the URL must have a slash (/) character 
+       *     to be recognized as a URL by the theme e.g. '/groups', '/u' or '/badges')
+       *     or a route name, although it might not work with some routes.
+       *
+      */
+
+
+      { title: 'Home',            icon: 'home',       destination: '/'                      },
+      { title: 'Profile',         icon: 'user',       destination: 'userActivity'           },
+      { title: 'Messages',        icon: 'envelope',   destination: 'userPrivateMessages'    },
+      { title: 'Bookmarks',       icon: 'bookmark',   destination: 'userActivity.bookmarks' },
+      { title: 'Preferences',     icon: 'cog',        destination: 'preferences'            },
+      //{ title: 'Notifications',   icon: 'comment',    destination: 'userNotifications'      },
+
+
+    ];
+
+    const user = api.getCurrentUser();
+
+    const appEvents = api.container.lookup('app-events:main');
+    const TabBarNavigator = {
+      user,
+      router: api.container.lookup('router:main'),
+      navigate(tab) {
+        const destination = tab.destination;
+        if (tab.isURL) {
+          DiscourseURL.routeTo(destination);
+          return;
+        }
+        this.router.transitionTo(destination, this.user.username);
+      }
+    };
+
+    api.registerConnectorClass('above-footer', 'd-tab-bar-theme', {
+      setupComponent() {
+        const self = this;
+
+        this.set('shouldRender', !Ember.isEmpty(this.get('currentUser')));
+
+        if (this.get('shouldRender')) {
+
+          this.set('elementId', 'discourse-tab-bar');
+          this.set('width', Ember.computed('tabs', function() {
+            const tabs = this.get('tabs');
+            if (tabs) {
+              const length = tabs.length;
+              const percentage = length ? 100 / length : length;
+              return Ember.String.htmlSafe(`width: ${percentage}%;`);
+            }
+          }));
+
+          this.set('actions', {
+            navigate(destination) {
+              const tab = this.get('tabs').find(tab => tab.destination === destination);
+              if (tab) {
+                TabBarNavigator.navigate(tab);
+              }
+            }
+          });
+
+          this.set('hightlight', function(destination) {
+            if (self.get('shouldRender') ) {
+              this.get('tabs').forEach(tab => {
+                if (tab.destination === destination) {
+                  Ember.set(tab, 'status', 'active');
+                  return;
+                }
+                Ember.set(tab, 'status', '');
+              })
+            }
+          });
+
+          this.set('tabs', tabs.map(tab => {
+            const destination = tab.destination;
+            tab.isURL = destination.indexOf('/') > -1;
+            if (!tab.isURL) {
+              api.container.lookup(`route:${destination}`).reopen({
+                actions: {
+                  didTransition() {
+                    this._super(...arguments);
+                    const target = this.modelFor('user');
+                    if (target && target.get('username') === self.get('currentUser.username')) {
+                      self.hightlight(destination);
+                    }
+                  }
+                }
+              })
+            }
+            return tab;
+          }));
+
+          appEvents.on('page:changed', data => {
+            const tab = self.get('tabs').find(tab => tab.destination === data.url && tab.isURL);
+            if (tab) {
+              self.hightlight(tab.destination);
+            }
+          });
+
+          this.on('didInsertElement', function() {
+            $('#main-outlet').css("padding-bottom", `${parseFloat(this.$().css('height')) + 10}px`);
+          });
+        }
+      }
+    });
+  })();
+</script>
+
+<script type='text/x-handlebars' data-template-name='/connectors/above-footer/d-tab-bar-theme'>
+  {{#if shouldRender}}
+      {{#each tabs as |tab|}}
+        <a style="{{width}}" class="tab {{tab.status}}" data-destination="{{tab.destination}}" {{action "navigate" tab.destination}}>
+          <i class="fa fa-{{tab.icon}}" aria-hidden="true"></i>
+          <p class="title">{{tab.title}}</p>
+        </a>
+      {{/each}}
+  {{/if}}
+</script>
