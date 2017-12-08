@@ -31,11 +31,28 @@ Follow the instructions here:
 
 https://meta.discourse.org/t/how-do-i-install-a-theme-or-theme-component/63682?u=osama
 
-### Can I change the order of the tabs? Can I remove a tab? Can I add new tabs?
 
-Yes, you can remove and reorder very easily, go to Admin => Customize => Themes => Discourse Tab Bar => Edit CSS/HTML => Mobile => </head>, and you'll find instructions on how to do that.
+### Customization
 
-Adding new tabs should be fairly easy for most cases. For example if you want to add a tab that takes to the about page of your forums, then it's only a matter of duplicating one line of code, figuring out an appropriate icon for your tab (find icons at http://fontawesome.io/icons/), and adding a relative URL to the page. Instructions are in theme's </head> tab.
+Once you install this theme, go to Admin => Customize => Themes and select this theme. Click "Edit CSS/HTML", switch to Mobile and finally select </head>, you'll find there an "Edit Area" at the top of the code. Most of the customizations you might want to do will be done there.
+
+1. Reorder tabs
+
+If you go to the edit area, you'll find 6 lines each one of them represents a tab. The tabs follow the order of those lines. So if you reorder those lines and save your changes the tab bar will update the order of the icons (you'll need to referesh your browser though).
+
+2. Remove tabs
+
+Simply go to the edit area and remove the line (or "comment" the line by adding double slashes // at the beginning of the line) that represents the tab you want to remove and save your changes.
+
+3. Add tabs
+
+Adding new tab should be easy for most cases. Go to the edit area, duplicate one of lines that represent the tabs and update the new line's attributes.
+
+The 'title' attribute is self-explanatory. The 'icon' attribute is the icon you want the tab to have (list of all icons and their names can be found at http://fontawesome.io/icons/).
+
+Now the 'destination' attribute is the tricky part. If you want the new tab to takes users to a certain page such as /about or /u or /badges or /pirvacy, then you simply need to assign the 'destination' attribute to the relative URL of the page. Let's say that the URL to the About page of your forums is https://forums.mysite.com/about, then the relative URL of your forums' About page is '/about'. A relative URL must have a slash '/' in it, otherwise it'll be interpreted as a route name and it won't work.
+
+The 'destination' attribute can also be a URL to your profile page or a group if you want to make it easy for your users to contact with staff. '/u/your_username' or '/groups/your_group_name' will work as well.
 
 ### License
 
