@@ -23,6 +23,8 @@
 
     const user = api.getCurrentUser();
 
+    const discourseURL = require('discourse/lib/url').default;
+
     const appEvents = api.container.lookup('app-events:main');
     const TabBarNavigator = {
       user,
@@ -30,7 +32,7 @@
       navigate(tab) {
         const destination = tab.destination;
         if (tab.isURL) {
-          DiscourseURL.routeTo(destination);
+          discourseURL.routeTo(destination);
           return;
         }
         this.router.transitionTo(destination, this.user.username);
