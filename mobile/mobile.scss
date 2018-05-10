@@ -1,6 +1,6 @@
 @import "common/foundation/variables";
 
-#topic-progress-wrapper {
+html:not(.anon) #topic-progress-wrapper {
   bottom: 50px;
 }
 
