@@ -1,5 +1,9 @@
 @import "common/foundation/variables";
 
+#topic-progress-wrapper {
+  bottom: 50px;
+}
+
 #discourse-tab-bar {
   background-color: $header_background; /** change this to change the background color of the tab bar **/
   width: 100%;
