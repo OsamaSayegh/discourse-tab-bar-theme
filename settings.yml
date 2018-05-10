@@ -1,0 +1,9 @@
+display_icon_titles:
+  default: true
+  description:
+    en: "Display titles below icons."
+
+icons_size:
+  default: 1.2
+  description:
+    en: "This setting changes the CSS font-size property of the icons (unit is em)"

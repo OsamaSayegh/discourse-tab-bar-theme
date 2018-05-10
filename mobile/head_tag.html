@@ -118,7 +118,9 @@
       {{#each tabs as |tab|}}
         <a style="{{width}}" class="tab {{tab.status}}" data-destination="{{tab.destination}}" {{action "navigate" tab.destination}}>
           <i class="fa fa-{{tab.icon}}" aria-hidden="true"></i>
-          <p class="title">{{tab.title}}</p>
+          {{#if themeSettings.display_icon_titles}}
+            <p class="title">{{tab.title}}</p>
+          {{/if}}
         </a>
       {{/each}}
   {{/if}}
