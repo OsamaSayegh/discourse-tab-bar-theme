@@ -1,31 +1,27 @@
 <script type="text/discourse-plugin" version="0.8.13">
   (function() {
-
-    const tabs = [
-
-    //                                 \\\   EDIT AREA   ///
-    //
-    //              REMOVE AND REORDER THE LINES BELOW TO REMOVE AND REORDER THE TABS
-    //             MAKE SURE YOU REMOVE NO BRACES { } OR QUOTATION MARKS ' ' OR COMMAS ,
-
-
-      { title: 'Home',            icon: 'home',       destination: '/'                      },
-      { title: 'Profile',         icon: 'user',       destination: 'userActivity'           },
-      { title: 'Messages',        icon: 'envelope',   destination: 'userPrivateMessages'    },
-      { title: 'Bookmarks',       icon: 'bookmark',   destination: 'userActivity.bookmarks' },
-      { title: 'Preferences',     icon: 'cog',        destination: 'preferences'            },
-  //  { title: 'Notifications',   icon: 'comment',    destination: 'userNotifications'      }, // this is disabled tab
-
-
-      //                           \\\   END OF EDIT AREA   ///
-
-    ];
-
+    const tabs = [];
+    [
+      settings.tab_1_settings,
+      settings.tab_2_settings,
+      settings.tab_3_settings,
+      settings.tab_4_settings,
+      settings.tab_5_settings,
+      settings.tab_6_settings
+    ].forEach(setting => {
+      const props = setting.split(",").map(s => s.trim());
+      if (props.length >= 3 && props[3] !== "false") {
+        tabs.push({
+          title: props[0],
+          icon: props[1],
+          destination: props[2]
+        });
+      }
+    });
     const user = api.getCurrentUser();
 
     const discourseURL = require('discourse/lib/url').default;
 
-    const appEvents = api.container.lookup('app-events:main');
     const TabBarNavigator = {
       user,
       router: api.container.lookup('router:main'),
@@ -46,8 +42,6 @@
         this.set('shouldRender', !Ember.isEmpty(this.get('currentUser')));
 
         if (this.get('shouldRender')) {
-
-          this.set('elementId', 'discourse-tab-bar');
           this.set('width', Ember.computed('tabs', function() {
             const tabs = this.get('tabs');
             if (tabs) {
@@ -56,15 +50,6 @@
               return Ember.String.htmlSafe(`width: ${percentage}%;`);
             }
           }));
-
-          this.set('actions', {
-            navigate(destination) {
-              const tab = this.get('tabs').find(tab => tab.destination === destination);
-              if (tab) {
-                TabBarNavigator.navigate(tab);
-              }
-            }
-          });
 
           this.set('hightlight', function(destination) {
             if (self.get('shouldRender') ) {
@@ -97,7 +82,7 @@
             return tab;
           }));
 
-          appEvents.on('page:changed', data => {
+          api.onAppEvent('page:changed', data => {
             const tab = self.get('tabs').find(tab => tab.destination === data.url && tab.isURL);
             if (tab) {
               self.hightlight(tab.destination);
@@ -108,6 +93,14 @@
             $('#main-outlet').css("padding-bottom", `${parseFloat(this.$().css('height')) + 10}px`);
           });
         }
+      },
+      actions: {
+        navigate(destination) {
+          const tab = this.get('tabs').find(tab => tab.destination === destination);
+          if (tab) {
+            TabBarNavigator.navigate(tab);
+          }
+        }
       }
     });
   })();
@@ -117,7 +110,7 @@
   {{#if shouldRender}}
       {{#each tabs as |tab|}}
         <a style="{{width}}" class="tab {{tab.status}}" data-destination="{{tab.destination}}" {{action "navigate" tab.destination}}>
-          <i class="fa fa-{{tab.icon}}" aria-hidden="true"></i>
+          {{d-icon tab.icon}}
           {{#if themeSettings.display_icon_titles}}
             <p class="title">{{tab.title}}</p>
           {{/if}}

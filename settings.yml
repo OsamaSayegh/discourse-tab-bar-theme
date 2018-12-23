@@ -1,9 +1,35 @@
 display_icon_titles:
   default: true
   description:
-    en: "Display titles below icons."
+    en: "Display titles"
 
 icons_size:
   default: 1.2
   description:
     en: "This setting changes the CSS font-size property of the icons (unit is em)"
+
+tab_1_settings:
+  default: "Home, home, /"
+  description:
+    en: "Format is: <code>&lt;title&gt;, &lt;FA5 icon&gt;, &lt;relative url or route name&gt;, &lt;enabled? default true (optional)&gt;</code>"
+
+tab_2_settings:
+  default: "Profile, user, userActivity"
+
+tab_3_settings:
+  default: "Messages, envelope, userPrivateMessages"
+
+tab_4_settings:
+  default: "Bookmarks, bookmark, userActivity.bookmarks"
+
+tab_5_settings:
+  default: "Preferences, cog, preferences"
+
+tab_6_settings:
+  default: "Notifications, comment, userNotifications, false"
+
+extend_fa5_icons:
+  type: list
+  default: ""
+  description:
+    en: "Use this setting to add any icons you want to use that are not included in the default FA5 icons subset"

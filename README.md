@@ -4,9 +4,9 @@ This theme adds a tab bar to your Discourse forums to let your users on mobile q
 
 The tab bar will **only** show to **logged-in** users on **mobile** devices.
 
-Out of the box, the theme includes 6 tabs and 5 are enabled.
+This theme comes with 6 tabs. 5 of them are enabled out of the box.
 
-Included tabs are:
+Tabs are:
 
 1. Homepage (enabled)
 2. Profile (enabled)
@@ -31,35 +31,34 @@ Follow the instructions here:
 
 https://meta.discourse.org/t/how-do-i-install-a-theme-or-theme-component/63682?u=osama
 
-### Note on updates
+### Theme Settings
 
-Updating the theme **will override** all customization you made to the theme. So please copy your customizations to somewhere else then update the theme and re-implement your customization.
+#### `display icon titles`
 
-This hassle is temporary until we have a plugin to replace this theme. With plugin you'll have an interface to make customize without having to touch a single line of code. Keep an eye on [this topic](https://meta.discourse.org/t/discourse-tab-bar-for-mobile/75696?u=osama) for updates.
+Uncheck this setting if you don't want to have titles under the tabs.
 
-### Customization
+#### `icons size`
 
-**Please read the "Note on updates" section above before you make any customizations to the theme.**
+This setting controls the size of the icons. Unit is [EM](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Values_and_units).
 
-Once you install this theme, go to Admin => Customize => Themes and select this theme. Click "Edit CSS/HTML", switch to Mobile and finally select </head>, you'll find there an "Edit Area" at the top of the code. Most of the customizations you might want to do will be done there.
+#### `tab x settings`
 
-1. Reorder tabs
+There are 6 of these settings, each one controls a tab. The format of these settings is as follows:
 
-If you go to the edit area, you'll find 6 lines each one of them represents a tab. The tabs follow the order of those lines. So if you reorder those lines and save your changes the tab bar will update the order of the icons (you'll need to referesh your browser though).
+`title, icon_name, relative_url_or_route_name, enabled (optional)`
 
-2. Remove tabs
+The `title` attribute is self-explanatory, it controls the title under the tab.
 
-Simply go to the edit area and remove the line (or "comment" the line by adding double slashes // at the beginning of the line) that represents the tab you want to remove and save your changes.
+`icon_name`, this controls the icon of the tab. A full list of all icons you can use is [here](https://fontawesome.com/icons?d=gallery&m=free).
+If the icon you want is not showing, see the `extend fa5 icons` setting below.
 
-3. Add tabs
+`relative_url_or_route_name`, the third attribute, determines where the tab links to. It can be either a relative URL such as `/latest`, or an Ember route name.
 
-Adding new tab should be easy for most cases. Go to the edit area, duplicate one of lines that represent the tabs and update the new line's attributes.
+The `enabled` attribute is optional, if you don't include it it will be enabled. Set to `false` if you want to disable a certain tab.
 
-The 'title' attribute is self-explanatory. The 'icon' attribute is the icon you want the tab to have (list of all icons and their names can be found at http://fontawesome.io/icons/).
+#### `extend fa5 icons`
 
-Now the 'destination' attribute is the tricky part. If you want the new tab to takes users to a certain page such as /about or /u or /badges or /pirvacy, then you simply need to assign the 'destination' attribute to the relative URL of the page. Let's say that the URL to the About page of your forums is https://forums.mysite.com/about, then the relative URL of your forums' About page is '/about'. A relative URL must have a slash '/' in it, otherwise it'll be interpreted as a route name and it won't work.
-
-The 'destination' attribute can also be a URL to your profile page or a group if you want to make it easy for your users to contact with staff. '/u/your_username' or '/groups/your_group_name' will work as well.
+By default, Discourse ships only a subset of the full set of FontAwesome 5 icons. If you want to use icons that are not included in the default subset, simply add them to this setting.
 
 ### Feedback
 
