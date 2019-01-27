@@ -36,63 +36,57 @@
     };
 
     api.registerConnectorClass('above-footer', 'd-tab-bar-theme', {
+      shouldRender() {
+        return !Ember.isEmpty(user);
+      },
+
       setupComponent() {
         const self = this;
 
-        this.set('shouldRender', !Ember.isEmpty(this.get('currentUser')));
+        this.set('width', Ember.computed('tabs', function() {
+          const tabs = this.get('tabs');
+          if (tabs) {
+            const length = tabs.length;
+            const percentage = length ? 100 / length : length;
+            return Ember.String.htmlSafe(`width: ${percentage}%;`);
+          }
+        }));
 
-        if (this.get('shouldRender')) {
-          this.set('width', Ember.computed('tabs', function() {
-            const tabs = this.get('tabs');
-            if (tabs) {
-              const length = tabs.length;
-              const percentage = length ? 100 / length : length;
-              return Ember.String.htmlSafe(`width: ${percentage}%;`);
+        this.set('hightlight', function(destination) {
+          this.get('tabs').forEach(tab => {
+            if (tab.destination === destination) {
+              Ember.set(tab, 'status', 'active');
+              return;
             }
-          }));
+            Ember.set(tab, 'status', '');
+          })
+        });
 
-          this.set('hightlight', function(destination) {
-            if (self.get('shouldRender') ) {
-              this.get('tabs').forEach(tab => {
-                if (tab.destination === destination) {
-                  Ember.set(tab, 'status', 'active');
-                  return;
-                }
-                Ember.set(tab, 'status', '');
-              })
-            }
-          });
-
-          this.set('tabs', tabs.map(tab => {
-            const destination = tab.destination;
-            tab.isURL = destination.indexOf('/') > -1;
-            if (!tab.isURL) {
-              api.container.lookup(`route:${destination}`).reopen({
-                actions: {
-                  didTransition() {
-                    this._super(...arguments);
-                    const target = this.modelFor('user');
-                    if (target && target.get('username') === self.get('currentUser.username')) {
-                      self.hightlight(destination);
-                    }
+        this.set('tabs', tabs.map(tab => {
+          const destination = tab.destination;
+          tab.isURL = destination.indexOf('/') > -1;
+          if (!tab.isURL) {
+            api.container.lookup(`route:${destination}`).reopen({
+              actions: {
+                didTransition() {
+                  this._super(...arguments);
+                  const target = this.modelFor('user');
+                  if (target && target.get('username') === self.get('currentUser.username')) {
+                    self.hightlight(destination);
                   }
                 }
-              })
-            }
-            return tab;
-          }));
+              }
+            })
+          }
+          return tab;
+        }));
 
-          api.onAppEvent('page:changed', data => {
-            const tab = self.get('tabs').find(tab => tab.destination === data.url && tab.isURL);
-            if (tab) {
-              self.hightlight(tab.destination);
-            }
-          });
-
-          this.on('didInsertElement', function() {
-            $('#main-outlet').css("padding-bottom", `${parseFloat(this.$().css('height')) + 10}px`);
-          });
-        }
+        api.onAppEvent('page:changed', data => {
+          const tab = self.get('tabs').find(tab => tab.destination === data.url && tab.isURL);
+          if (tab) {
+            self.hightlight(tab.destination);
+          }
+        });
       },
       actions: {
         navigate(destination) {
@@ -107,14 +101,12 @@
 </script>
 
 <script type='text/x-handlebars' data-template-name='/connectors/above-footer/d-tab-bar-theme'>
-  {{#if shouldRender}}
-      {{#each tabs as |tab|}}
-        <a style="{{width}}" class="tab {{tab.status}}" data-destination="{{tab.destination}}" {{action "navigate" tab.destination}}>
-          {{d-icon tab.icon}}
-          {{#if themeSettings.display_icon_titles}}
-            <p class="title">{{tab.title}}</p>
-          {{/if}}
-        </a>
-      {{/each}}
-  {{/if}}
+  {{#each tabs as |tab|}}
+    <a style="{{width}}" class="tab {{tab.status}}" data-destination="{{tab.destination}}" {{action "navigate" tab.destination}}>
+      {{d-icon tab.icon}}
+      {{#if themeSettings.display_icon_titles}}
+        <p class="title">{{tab.title}}</p>
+      {{/if}}
+    </a>
+  {{/each}}
 </script>
