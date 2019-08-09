@@ -20,6 +20,7 @@
     }
   });
   const user = api.getCurrentUser();
+  if (!user) return;
 
   const discourseURL = require("discourse/lib/url").default;
 
@@ -38,7 +39,7 @@
           ].handlers.some(handler => handler.names.some(n => n === "username"));
           if (usernameParam) {
             const target = this.modelFor("user");
-            if (target && target.username === user.username)
+            if (target && user && target.username === user.username)
               highlight(tab.destination);
           } else {
             highlight(tab.destination);
