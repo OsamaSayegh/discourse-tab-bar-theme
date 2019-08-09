@@ -20,11 +20,11 @@
     }
   });
   const user = api.getCurrentUser();
-  if (!user) return;
 
   const discourseURL = require("discourse/lib/url").default;
 
   tabs.forEach(tab => {
+    if (!user) return;
     if (tab.destination.indexOf("/") !== -1) return;
     // we need this to highlight tab when you navigate to
     // a subroute of a tab's route
