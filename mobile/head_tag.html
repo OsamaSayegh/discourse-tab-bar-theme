@@ -54,7 +54,7 @@
   function highlight(destination) {
     const $tabs = $(".d-tab-bar-theme .tab");
     $tabs.each(function() {
-      $this = $(this);
+      const $this = $(this);
       if ($this.data("destination") === destination) {
         $this.addClass("active");
         return;
