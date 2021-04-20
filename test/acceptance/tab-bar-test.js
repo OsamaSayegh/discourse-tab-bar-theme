@@ -8,7 +8,7 @@ acceptance("Tab bar component | Logged in users on mobile", function(needs) {
 
   test("They see the bar on mobile", async function(assert) {
     await visit("/latest");
-    assert.ok(exists(".d-tab-bar-theme"));
+    assert.ok(exists(".d-tab-bar"));
   });
 });
 
@@ -17,6 +17,6 @@ acceptance("Tab bar component | Anon users on mobile", function(needs) {
 
   test("They don't see the bar on mobile", async function(assert) {
     await visit("/latest");
-    assert.ok(!exists(".d-tab-bar-theme"));
+    assert.ok(!exists(".d-tab-bar"));
   });
 });
