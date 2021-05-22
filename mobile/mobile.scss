@@ -16,17 +16,56 @@ html:not(.anon) {
   #main-outlet {
     margin-bottom: $bar-height-10;
   }
+
+  #reply-control {
+    margin-bottom: env(safe-area-inset-bottom);
+    padding-bottom: 0px;
+    transition: all 0.1s ease-out;
+    bottom: $bar-height;
+  }
+
+  .posts-filtered-notice {
+    transition: all 0.1s ease-out;
+    bottom: $bar-height;
+  }
+}
+
+body.tab-bar-hidden {
+  .d-tab-bar {
+    bottom: $bar-height * -1;
+    transition: all 0.2s ease-in;
+  }
+
+  #topic-progress-wrapper:not(.docked) {
+    bottom: 0;
+    transition: all 0.2s ease-in;
+  }
+
+  #reply-control {
+    margin-bottom: env(safe-area-inset-bottom);
+    bottom: 0;
+    padding-bottom: 0px;
+    transition: all 0.2s ease-in;
+  }
+
+  .posts-filtered-notice {
+    transition: all 0.2s ease-in;
+    bottom: 0;
+  }
 }
 
 .d-tab-bar {
   background-color: var(--header_background);
+  transition: all 0.1s ease-out;
   width: 100%;
   height: $bar-height;
   position: fixed;
   bottom: 0;
   z-index: z("dropdown") - 1;
   box-shadow: 0px -2px 4px -1px rgba(0, 0, 0, 0.25);
-  padding-bottom: env(safe-area-inset-bottom); // for devices with a notch (iPhone X*)
+  padding-bottom: env(
+    safe-area-inset-bottom
+  ); // for devices with a notch (iPhone X*)
 
   .tab {
     color: var(--primary-medium);
@@ -43,11 +82,15 @@ html:not(.anon) {
 
     p.title {
       margin: 0;
-      font-size: .7em;
+      font-size: 0.7em;
     }
 
     .fa {
       font-size: #{$icons-size}em;
     }
   }
+}
+
+body:not(.footer-nav-ipad) .footer-nav {
+  display: none;
 }

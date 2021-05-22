@@ -1,4 +1,6 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
+import discourseComputed from "discourse-common/utils/decorators";
+import discourseURL from "discourse/lib/url";
 
 function highlight(destination) {
   const tabs = document.querySelectorAll(".d-tab-bar .tab");
@@ -9,6 +11,31 @@ function highlight(destination) {
     }
     tab.classList.remove("active");
   });
+}
+
+function compareURLs(url1, url2) {
+  if (url1 === url2) return true;
+
+  return (
+    url1 &&
+    url2 &&
+    url1.replace(/(\?|#).*/g, "") === url2.replace(/(\?|#).*/g, "")
+  );
+}
+
+function routeToURL(router, route, user) {
+  const needParams = router._routerMicrolib.recognizer.names[
+    route
+  ].handlers.some((handler) => handler.names.length > 0);
+  let url;
+  if (needParams) {
+    // assume the param it needs is username... very difficult to guess
+    // the params correctly let alone passing the correct data
+    url = router.generate(route, { username: user.username });
+  } else {
+    url = router.generate(route);
+  }
+  return url;
 }
 
 export default {
@@ -37,10 +64,8 @@ export default {
           });
         }
       });
+
       const user = api.getCurrentUser();
-
-      const discourseURL = require("discourse/lib/url").default;
-
       tabs.forEach((tab) => {
         if (!user) return;
         if (tab.destination.indexOf("/") !== -1) return;
@@ -71,75 +96,69 @@ export default {
         });
       });
 
+      api.onAppEvent("page:changed", (data) => {
+        const tab = tabs.find((tab) => {
+          return !router.hasRoute(tab.destination)
+            ? compareURLs(tab.destination, data.url)
+            : tab.destination === data.currentRouteName &&
+                compareURLs(
+                  routeToURL(router, tab.destination, user),
+                  data.url
+                );
+        });
+        if (tab) {
+          highlight(tab.destination);
+        }
+      });
+
       api.registerConnectorClass("above-footer", "d-tab-bar", {
         shouldRender() {
           return !Ember.isEmpty(user);
         },
 
         setupComponent() {
-          const self = this;
+          let lastScrollTop = 0;
+          const scrollMax = 30;
+          const hiddenTabBarClass = "tab-bar-hidden";
+          const scrollCallback = (() => {
+            const scrollTop = window.scrollY;
+            const body = document.body;
+            if (
+              lastScrollTop < scrollTop &&
+              scrollTop > scrollMax &&
+              !body.classList.contains(hiddenTabBarClass)
+            ) {
+              body.classList.add(hiddenTabBarClass);
+            } else if (
+              lastScrollTop > scrollTop &&
+              body.classList.contains(hiddenTabBarClass)
+            ) {
+              body.classList.remove(hiddenTabBarClass);
+            }
+            lastScrollTop = scrollTop;
+          }).bind(this);
 
-          Ember.defineProperty(
-            this,
-            "width",
-            Ember.computed("tabs", () => {
-              const tabs = this.get("tabs");
+          this.reopen({
+            tabs,
+
+            @discourseComputed("tabs")
+            width(tabs) {
               if (tabs) {
                 const length = tabs.length;
                 const percentage = length ? 100 / length : length;
                 return Ember.String.htmlSafe(`width: ${percentage}%;`);
               }
-            })
-          );
+            },
 
-          tabs.forEach((tab) => {
-            tab.isURL = !router.hasRoute(tab.destination);
-          });
+            didInsertElement() {
+              this._super(...arguments);
+              document.addEventListener("scroll", scrollCallback);
+            },
 
-          this.set("tabs", tabs);
-
-          this.set("routeToURL", function(route) {
-            const needParams = router._routerMicrolib.recognizer.names[
-              route
-            ].handlers.some((handler) => handler.names.length > 0);
-            let url;
-            if (needParams) {
-              // assume the param it needs is username... very difficult to guess
-              // the params correctly let alone passing the correct data
-              url = router.generate(route, { username: user.username });
-            } else {
-              url = router.generate(route);
-            }
-            return url;
-          });
-
-          this.set("compareURLs", function(url1, url2) {
-            if (url1 === url2) return true;
-
-            return (
-              url1 &&
-              url2 &&
-              url1.replace(/(\?|#).*/g, "") === url2.replace(/(\?|#).*/g, "")
-            );
-          });
-
-          this.set("compareRoutes", function(route1, route2) {
-            return route1 === route2;
-          });
-
-          api.onAppEvent("page:changed", (data) => {
-            const tab = this.get("tabs").find((tab) => {
-              return tab.isURL
-                ? this.compareURLs(tab.destination, data.url)
-                : this.compareRoutes(tab.destination, data.currentRouteName) &&
-                    this.compareURLs(
-                      this.routeToURL(tab.destination),
-                      data.url
-                    );
-            });
-            if (tab) {
-              highlight(tab.destination);
-            }
+            willDestroyElement() {
+              this._super(...arguments);
+              document.removeEventListener("scroll", scrollCallback);
+            },
           });
         },
 
@@ -148,7 +167,7 @@ export default {
             const destination = tab.destination;
             let url = destination;
             if (router.hasRoute(destination)) {
-              url = this.routeToURL(destination);
+              url = routeToURL(router, destination, user);
             }
             discourseURL.routeTo(url);
           },
