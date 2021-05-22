@@ -17,7 +17,7 @@ html:not(.anon) {
     margin-bottom: $bar-height-10;
   }
 
-  #reply-control {
+  #reply-control.draft {
     margin-bottom: env(safe-area-inset-bottom);
     padding-bottom: 0px;
     transition: all 0.1s ease-out;
@@ -41,7 +41,7 @@ body.tab-bar-hidden {
     transition: all 0.2s ease-in;
   }
 
-  #reply-control {
+  #reply-control.draft {
     margin-bottom: env(safe-area-inset-bottom);
     bottom: 0;
     padding-bottom: 0px;
