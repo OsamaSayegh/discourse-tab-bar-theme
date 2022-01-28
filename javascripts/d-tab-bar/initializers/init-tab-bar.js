@@ -14,7 +14,7 @@ function highlight(destination) {
 }
 
 function compareURLs(url1, url2) {
-  if (url1 === url2) return true;
+  if (url1 === decodeURI(url2)) return true;
 
   return (
     url1 &&
