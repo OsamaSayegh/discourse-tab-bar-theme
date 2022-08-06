@@ -33,3 +33,8 @@ extend_fa5_icons:
   default: ""
   description:
     en: "Use this setting to add any icons you want to use that are not included in the default FA5 icons subset"
+
+match_url_params:
+   type: false
+   description:
+    en: "Match full url without trim params"
