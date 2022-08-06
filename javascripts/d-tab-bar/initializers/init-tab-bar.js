@@ -14,7 +14,7 @@ function highlight(destination) {
 }
 
 function compareURLs(url1, url2) {
-  if (url1 === url2) return true;
+  if (url1 === decodeURI(url2)) return true;
   if(!settings.match_url_params){
     return (
       url1 &&
@@ -23,7 +23,6 @@ function compareURLs(url1, url2) {
     );
   }
   return false
-  
 }
 
 function routeToURL(router, route, user) {
