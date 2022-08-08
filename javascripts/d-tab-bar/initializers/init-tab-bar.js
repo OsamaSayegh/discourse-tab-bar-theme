@@ -15,12 +15,14 @@ function highlight(destination) {
 
 function compareURLs(url1, url2) {
   if (url1 === decodeURI(url2)) return true;
-
-  return (
-    url1 &&
-    url2 &&
-    url1.replace(/(\?|#).*/g, "") === url2.replace(/(\?|#).*/g, "")
-  );
+  if (!settings.match_url_params) {
+    return (
+      url1 &&
+      url2 &&
+      url1.replace(/(\?|#).*/g, "") === url2.replace(/(\?|#).*/g, "")
+    );
+  }
+  return false
 }
 
 function routeToURL(router, route, user) {
