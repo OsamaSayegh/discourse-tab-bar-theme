@@ -1,3 +1,5 @@
+/* eslint ember/no-private-routing-service: 0 */
+
 export function parseTabsSettings() {
   const list = [];
   [

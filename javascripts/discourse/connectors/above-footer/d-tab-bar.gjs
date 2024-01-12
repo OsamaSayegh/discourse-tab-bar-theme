@@ -1,27 +1,27 @@
+/* eslint ember/no-private-routing-service: 0 */
+
 import Component from "@ember/component";
-import { action } from "@ember/object";
-import { inject as service } from "@ember/service";
-import { htmlSafe } from "@ember/template";
-import { on } from "@ember/modifier";
 import { fn } from "@ember/helper";
+import { on } from "@ember/modifier";
+import { action } from "@ember/object";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
-import and from "truth-helpers/helpers/and";
-
+import { inject as service } from "@ember/service";
+import { htmlSafe } from "@ember/template";
 import discourseURL from "discourse/lib/url";
 import dIcon from "discourse-common/helpers/d-icon";
-import themeSetting from "discourse/helpers/theme-setting";
-
+import and from "truth-helpers/helpers/and";
 import { parseTabsSettings, routeToURL } from "../../../d-tab-bar/lib/helpers";
 
 const SCROLL_MAX = 30;
 const HIDDEN_TAB_BAR_CLASS = "tab-bar-hidden";
 
 export default class DTabBar extends Component {
-  tabs = parseTabsSettings();
-  lastScrollTop = 0;
   @service router;
   @service currentUser;
+
+  tabs = parseTabsSettings();
+  lastScrollTop = 0;
 
   get width() {
     const length = this.tabs.length;
@@ -69,14 +69,24 @@ export default class DTabBar extends Component {
 
   <template>
     {{#if (and this.currentUser this.tabs.length)}}
-      <div class="d-tab-bar" {{didInsert this.setupScrollListener}} {{willDestroy this.removeScrollListener}}>
+      <div
+        class="d-tab-bar"
+        {{didInsert this.setupScrollListener}}
+        {{willDestroy this.removeScrollListener}}
+      >
         {{#each this.tabs as |tab|}}
-          <a style="{{this.width}}" class="tab" data-destination="{{tab.destination}}" {{on "click" (fn this.navigate tab)}}>
+          <div
+            role="link"
+            style={{this.width}}
+            class="tab"
+            data-destination={{tab.destination}}
+            {{on "click" (fn this.navigate tab)}}
+          >
             {{dIcon tab.icon}}
-            {{#if (themeSetting 'display_icon_titles')}}
+            {{#if settings.display_icon_titles}}
               <p class="title">{{tab.title}}</p>
             {{/if}}
-          </a>
+          </div>
         {{/each}}
       </div>
     {{/if}}

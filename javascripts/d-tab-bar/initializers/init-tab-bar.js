@@ -1,3 +1,5 @@
+/* eslint ember/no-private-routing-service: 0 */
+
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { parseTabsSettings, routeToURL } from "../lib/helpers";
 
@@ -13,7 +15,9 @@ function highlight(destination) {
 }
 
 function compareURLs(url1, url2) {
-  if (url1 === decodeURI(url2)) return true;
+  if (url1 === decodeURI(url2)) {
+    return true;
+  }
   if (!settings.match_url_params) {
     return (
       url1 &&
@@ -21,7 +25,7 @@ function compareURLs(url1, url2) {
       url1.replace(/(\?|#).*/g, "") === url2.replace(/(\?|#).*/g, "")
     );
   }
-  return false
+  return false;
 }
 
 export default {
@@ -30,10 +34,14 @@ export default {
   initialize() {
     withPluginApi("0.8.13", (api) => {
       const site = api.container.lookup("site:main");
-      if (!site.mobileView) return;
+      if (!site.mobileView) {
+        return;
+      }
 
       const user = api.getCurrentUser();
-      if (!user) return;
+      if (!user) {
+        return;
+      }
 
       const tabs = parseTabsSettings();
       if (tabs.length === 0) {
@@ -43,7 +51,9 @@ export default {
       const router = api.container.lookup("router:main");
 
       tabs.forEach((tab) => {
-        if (tab.destination.indexOf("/") !== -1) return;
+        if (tab.destination.indexOf("/") !== -1) {
+          return;
+        }
         // we need this to highlight tab when you navigate to
         // a subroute of a tab's route
         api.container.lookup(`route:${tab.destination}`).reopen({
@@ -59,8 +69,9 @@ export default {
               );
               if (usernameParam) {
                 const target = this.modelFor("user");
-                if (target?.username === user.username)
+                if (target?.username === user.username) {
                   highlight(tab.destination);
+                }
               } else {
                 highlight(tab.destination);
               }
@@ -72,15 +83,18 @@ export default {
       });
 
       api.onAppEvent("page:changed", (data) => {
-        const tab = tabs.find((tab) => {
+        const match = tabs.find((tab) => {
           if (!router.hasRoute(tab.destination)) {
             return compareURLs(tab.destination, data.url);
           } else {
-            return tab.destination === data.currentRouteName && compareURLs(routeToURL(router, tab.destination, user), data.url);
+            return (
+              tab.destination === data.currentRouteName &&
+              compareURLs(routeToURL(router, tab.destination, user), data.url)
+            );
           }
         });
-        if (tab) {
-          highlight(tab.destination);
+        if (match) {
+          highlight(match.destination);
         }
       });
     });

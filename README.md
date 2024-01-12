@@ -17,13 +17,13 @@ Tabs are:
 
 ### Screenshots:
 
-<img src="demo-bright-1.png" height="500">
+<img src="https://github.com/OsamaSayegh/discourse-tab-bar-theme/assets/17474474/3a5d64c2-7ffb-45a3-bdf3-c9db39c52d7c" height="500">
 
-<img src="demo-bright-2.png" height="300">
+<img src="https://github.com/OsamaSayegh/discourse-tab-bar-theme/assets/17474474/f5fcbc64-f88d-448b-9c84-3b2f18a4cc1d" height="300">
 
-<img src="demo-dark-1.png" height="300">
+<img src="https://github.com/OsamaSayegh/discourse-tab-bar-theme/assets/17474474/a3548b72-7cd5-4698-b324-600c3bd11630" height="300">
 
-<img src="demo-dark-2.png" height="500">
+<img src="https://github.com/OsamaSayegh/discourse-tab-bar-theme/assets/17474474/9028589b-45ff-44aa-8bb9-c6b4cad219fb" height="500">
 
 ### Installation
 

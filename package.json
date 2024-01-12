@@ -1,0 +1,13 @@
+{
+  "name": "discourse-tab-bar",
+  "version": "0.0.1",
+  "repository": "https://github.com/OsamaSayegh/discourse-tab-bar-theme",
+  "author": "Osama Sayegh",
+  "license": "MIT",
+  "devDependencies": {
+    "@discourse/lint-configs": "^1.3.1",
+    "ember-template-lint": "^5.13.0",
+    "eslint": "^8.55.0",
+    "prettier": "^2.8.8"
+  }
+}
