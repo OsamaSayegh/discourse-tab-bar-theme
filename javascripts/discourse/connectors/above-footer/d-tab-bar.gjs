@@ -19,6 +19,7 @@ const HIDDEN_TAB_BAR_CLASS = "tab-bar-hidden";
 export default class DTabBar extends Component {
   @service router;
   @service currentUser;
+  @service site;
 
   tabs = parseTabsSettings();
   lastScrollTop = 0;
@@ -68,7 +69,7 @@ export default class DTabBar extends Component {
   }
 
   <template>
-    {{#if (and this.currentUser this.tabs.length)}}
+    {{#if (and this.currentUser this.site.mobileView this.tabs.length)}}
       <div
         class="d-tab-bar"
         {{didInsert this.setupScrollListener}}
