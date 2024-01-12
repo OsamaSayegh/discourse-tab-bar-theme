@@ -14,19 +14,19 @@ tab_1_settings:
     en: "Format is: <code>&lt;title&gt;, &lt;FA5 icon&gt;, &lt;relative url or route name&gt;, &lt;enabled? default true (optional)&gt;</code>"
 
 tab_2_settings:
-  default: "Profile, user, userActivity"
+  default: "Profile, user, userActivity.index"
 
 tab_3_settings:
-  default: "Messages, envelope, userPrivateMessages"
+  default: "Messages, envelope, userPrivateMessages.user.index"
 
 tab_4_settings:
   default: "Bookmarks, bookmark, userActivity.bookmarks"
 
 tab_5_settings:
-  default: "Preferences, cog, preferences"
+  default: "Preferences, cog, preferences.account"
 
 tab_6_settings:
-  default: "Notifications, comment, userNotifications, false"
+  default: "Notifications, comment, userNotifications.index, false"
 
 extend_fa5_icons:
   type: list

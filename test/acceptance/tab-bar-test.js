@@ -17,6 +17,6 @@ acceptance("Tab bar component | Anon users on mobile", function(needs) {
 
   test("They don't see the bar on mobile", async function(assert) {
     await visit("/latest");
-    assert.ok(!exists(".d-tab-bar"));
+    assert.notOk(exists(".d-tab-bar"));
   });
 });

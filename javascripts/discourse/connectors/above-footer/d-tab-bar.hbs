@@ -1,8 +1,0 @@
-{{#each tabs as |tab|}}
-  <a style="{{width}}" class="tab" data-destination="{{tab.destination}}" onclick={{action "navigate" tab}}>
-    {{d-icon tab.icon}}
-    {{#if (theme-setting 'display_icon_titles')}}
-      <p class="title">{{tab.title}}</p>
-    {{/if}}
-  </a>
-{{/each}}
