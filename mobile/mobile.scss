@@ -94,3 +94,9 @@ body.tab-bar-hidden {
 body:not(.footer-nav-ipad) .footer-nav {
   display: none;
 }
+
+.has-full-page-chat {
+  .d-tab-bar {
+    display: none;
+  }
+}
