@@ -100,3 +100,54 @@ body:not(.footer-nav-ipad) .footer-nav {
     display: none;
   }
 }
+
+.d-tab-bar-admin-setup {
+  .row-wrapper {
+    display: grid;
+    grid-template-columns: 2em 10em repeat(2, 1fr) 2em;
+    padding: 0.55em 0 0.7em;
+
+    &.header {
+      padding-bottom: 0;
+    }
+
+    .select-kit,
+    input {
+      width: 100%;
+    }
+    input[type="text"] {
+      margin-bottom: 0;
+    }
+
+    .tab-icon {
+      grid-column: 2;
+    }
+
+    .input-field {
+      margin: 0 0.5em;
+    }
+
+    .draggable {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      color: var(--primary-medium);
+      align-self: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+.tab-bar-preview {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  width: 35em;
+
+  .d-tab-bar {
+    position: unset;
+    cursor: default;
+  }
+}

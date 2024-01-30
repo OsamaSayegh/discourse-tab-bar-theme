@@ -1,6 +1,6 @@
 /* eslint ember/no-private-routing-service: 0 */
 
-import Component from "@ember/component";
+import Component from "@glimmer/component";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { action } from "@ember/object";
@@ -15,19 +15,31 @@ import { parseTabsSettings, routeToURL } from "../../../d-tab-bar/lib/helpers";
 
 const SCROLL_MAX = 30;
 const HIDDEN_TAB_BAR_CLASS = "tab-bar-hidden";
+const tabsFromSetting = parseTabsSettings();
+import { tracked } from "@glimmer/tracking";
 
 export default class DTabBar extends Component {
   @service router;
   @service currentUser;
   @service site;
 
-  tabs = parseTabsSettings();
   lastScrollTop = 0;
 
   get width() {
     const length = this.tabs.length;
     const percentage = length ? 100 / length : length;
     return htmlSafe(`width: ${percentage}%;`);
+  }
+
+  get shoudShow() {
+    return (
+      this.args.preview ||
+      (this.currentUser && this.site.mobileView && this.tabs.length)
+    );
+  }
+
+  get tabs() {
+    return this.args.tabs || tabsFromSetting;
   }
 
   scrollListener() {
@@ -50,6 +62,9 @@ export default class DTabBar extends Component {
 
   @action
   navigate(tab) {
+    if (this.args.preview) {
+      return;
+    }
     const destination = tab.destination;
     let url = destination;
     if (this.router._router.hasRoute(destination)) {
@@ -60,16 +75,22 @@ export default class DTabBar extends Component {
 
   @action
   setupScrollListener() {
+    if (this.args.preview) {
+      return;
+    }
     document.addEventListener("scroll", this.scrollListener);
   }
 
   @action
   removeScrollListener() {
+    if (this.args.preview) {
+      return;
+    }
     document.removeEventListener("scroll", this.scrollListener);
   }
 
   <template>
-    {{#if (and this.currentUser this.site.mobileView this.tabs.length)}}
+    {{#if this.shoudShow}}
       <div
         class="d-tab-bar"
         {{didInsert this.setupScrollListener}}

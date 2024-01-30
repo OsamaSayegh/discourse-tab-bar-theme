@@ -38,3 +38,7 @@ match_url_params:
   default: false
   description:
     en: "Match full url without trim params"
+test_setting:
+  type: "editor"
+  editor_component: "discourse/components/blah-component"
+  default: ""
