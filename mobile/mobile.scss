@@ -1,7 +1,6 @@
 @import "common/foundation/variables";
 
 $bar-height: 49px;
-
 $bar-height-10: $bar-height + 10;
 
 html:not(.anon) {
@@ -19,7 +18,7 @@ html:not(.anon) {
 
   #reply-control.draft {
     margin-bottom: env(safe-area-inset-bottom);
-    padding-bottom: 0px;
+    padding-bottom: 0;
     transition: all 0.1s ease-out;
     bottom: $bar-height;
   }
@@ -44,7 +43,7 @@ body.tab-bar-hidden {
   #reply-control.draft {
     margin-bottom: env(safe-area-inset-bottom);
     bottom: 0;
-    padding-bottom: 0px;
+    padding-bottom: 0;
     transition: all 0.2s ease-in;
   }
 
@@ -62,7 +61,7 @@ body.tab-bar-hidden {
   position: fixed;
   bottom: 0;
   z-index: z("dropdown") - 1;
-  box-shadow: 0px -2px 4px -1px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 -2px 4px -1px rgba(0, 0, 0, 0.25);
   padding-bottom: env(
     safe-area-inset-bottom
   ); // for devices with a notch (iPhone X*)
