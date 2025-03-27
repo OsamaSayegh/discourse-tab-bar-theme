@@ -12,7 +12,8 @@ module(
           tab_3_settings: "Messages, envelope, userPrivateMessages.user.index",
           tab_4_settings: "Bookmarks, bookmark, userActivity.bookmarks",
           tab_5_settings: "Preferences, cog, preferences.account",
-          tab_6_settings: "Notifications, comment, userNotifications.index, false"
+          tab_6_settings:
+            "Notifications, comment, userNotifications.index, false",
         })
       );
 
@@ -25,7 +26,8 @@ module(
           tab_3_settings: "Messages, envelope, userPrivateMessages.user.index",
           tab_4_settings: "Bookmarks, bookmark, userActivity.bookmarks",
           tab_5_settings: "Preferences, gear, preferences.account",
-          tab_6_settings: "Notifications, comment, userNotifications.index, false"
+          tab_6_settings:
+            "Notifications, comment, userNotifications.index, false",
         })
       );
       assert.deepEqual(Array.from(result), Array.from(expectedResult));
@@ -34,7 +36,7 @@ module(
     test("migrate extend_fa5_icons setting", function (assert) {
       const settings = new Map(
         Object.entries({
-          extend_fa5_icons: "home|user|cog|comment"
+          extend_fa5_icons: "home|user|cog|comment",
         })
       );
 
@@ -42,7 +44,7 @@ module(
 
       const expectedResult = new Map(
         Object.entries({
-          extend_fa5_icons: "house|user|gear|comment"
+          extend_fa5_icons: "house|user|gear|comment",
         })
       );
       assert.deepEqual(Array.from(result), Array.from(expectedResult));
