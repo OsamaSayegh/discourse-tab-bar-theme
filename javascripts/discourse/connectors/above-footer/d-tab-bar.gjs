@@ -6,10 +6,10 @@ import { on } from "@ember/modifier";
 import { action } from "@ember/object";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import willDestroy from "@ember/render-modifiers/modifiers/will-destroy";
-import { inject as service } from "@ember/service";
+import { service } from "@ember/service";
 import { htmlSafe } from "@ember/template";
+import dIcon from "discourse/helpers/d-icon";
 import discourseURL from "discourse/lib/url";
-import dIcon from "discourse-common/helpers/d-icon";
 import and from "truth-helpers/helpers/and";
 import { parseTabsSettings, routeToURL } from "../../../d-tab-bar/lib/helpers";
 
