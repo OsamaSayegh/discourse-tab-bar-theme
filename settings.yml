@@ -9,9 +9,9 @@ icons_size:
     en: "This setting changes the CSS font-size property of the icons (unit is em)"
 
 tab_1_settings:
-  default: "Home, home, /"
+  default: "Home, house, /"
   description:
-    en: "Format is: <code>&lt;title&gt;, &lt;FA5 icon&gt;, &lt;relative url or route name&gt;, &lt;enabled? default true (optional)&gt;</code>"
+    en: "Format is: <code>&lt;title&gt;, &lt;FA6 icon&gt;, &lt;relative url or route name&gt;, &lt;enabled? default true (optional)&gt;</code>"
 
 tab_2_settings:
   default: "Profile, user, userActivity.index"
@@ -23,7 +23,7 @@ tab_4_settings:
   default: "Bookmarks, bookmark, userActivity.bookmarks"
 
 tab_5_settings:
-  default: "Preferences, cog, preferences.account"
+  default: "Preferences, gear, preferences.account"
 
 tab_6_settings:
   default: "Notifications, comment, userNotifications.index, false"
