@@ -33,11 +33,11 @@ export default {
 
   initialize() {
     withPluginApi("0.8.13", (api) => {
-      const site = api.container.lookup("service:site");
-      if (!site.mobileView) {
-        return;
-      }
-
+      // No viewport check here: reading `site.mobileView` during
+      // initialization is deprecated (discourse.static-viewport-initialization)
+      // and would freeze the boot-time value. The tab bar component itself
+      // checks `site.mobileView` reactively at render time; the handlers below
+      // are no-ops while the tab bar isn't rendered.
       const user = api.getCurrentUser();
       if (!user) {
         return;
